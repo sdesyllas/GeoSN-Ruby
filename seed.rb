@@ -16,7 +16,8 @@ people.create_index(:loc => Mongo::GEO2D)
 		"userName" => "TestUser", 
 		"count" => 1, 
 		"friend_ids" => [i-2, i-1, i+1, i+2],
-		"loc" => [Random.rand(180), Random.rand(180)] #Random Coordinates
+		#Random Coordinates
+		"loc" => [Random.rand(-180.000000..180.000000), Random.rand(-180.000000..180.000000)] 
 	}
 	id = people.insert(doc)
 	puts "Inserted : #{doc}"
