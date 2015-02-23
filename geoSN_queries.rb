@@ -30,6 +30,18 @@ class GeoSN
 		}
 		result
 	end 
+
+	#input : User u, location q, positive integer k
+	#output : Result set R
+	def nearestFriends(u, q, r)
+		resultSet = Array.new
+		friends = socialModule.getFriends(u)
+		friends.each { |friend|
+			userLocation = geoModule.getUserLocation(friend['userId'])
+			resultSet.push([friend['userId'], userLocation])
+		}
+		resultSet
+		end 
 end
 
 #init social module
@@ -46,3 +58,7 @@ geoSN.socialModule = social
 rangeFriends = geoSN.rangeFriends(1, QueryPoint.new(37.983917, 23.729360), 100)
 puts "==========================="
 puts "RangeFriends : #{rangeFriends}"
+
+nearestFriends = geoSN.nearestFriends(1, QueryPoint.new(37.983917, 23.729360), 10)
+puts "==========================="
+puts "NearestFriends : #{nearestFriends}"
