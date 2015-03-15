@@ -17,7 +17,7 @@ puts "Ready to perform queries in MongoDB, database currently has #{people.count
 class GeoSN
 	attr_accessor :socialModule
 	attr_accessor :geoModule
-	
+
 	# Giver a user u , a 2D point q and a distance in meters r
 	# returns users withing the distance that they are friends together
 	def rangeFriends(userId, q, r)
@@ -29,7 +29,7 @@ class GeoSN
 			end
 		}
 		result
-	end 
+	end
 
 	#input : User u, location q, positive integer k
 	#output : Result set R
@@ -41,12 +41,13 @@ class GeoSN
 			resultSet.push([friend['userId'], userLocation])
 		}
 		resultSet
-		end 
+		end
 end
 
 #init social module
 social = SocialPrimitiveQueries.new
 social.people = people
+
 #init geo module
 geo = GeoPrimitiveQueries.new
 geo.people = people
@@ -55,10 +56,18 @@ geoSN = GeoSN.new
 geoSN.geoModule = geo
 geoSN.socialModule = social
 
+timer1 = Time.now.to_f
 rangeFriends = geoSN.rangeFriends(1, QueryPoint.new(37.983917, 23.729360), 100)
 puts "==========================="
 puts "RangeFriends : #{rangeFriends}"
+timer2 = Time.now.to_f
+diff = (timer2-timer1)*1000
+puts "Finished at : #{diff} ms"
 
+timer1 = Time.now.to_f
 nearestFriends = geoSN.nearestFriends(1, QueryPoint.new(37.983917, 23.729360), 10)
 puts "==========================="
 puts "NearestFriends : #{nearestFriends}"
+timer2 = Time.now.to_f
+diff = (timer2-timer1)*1000
+puts "Finished at : #{diff} ms"
