@@ -8,10 +8,7 @@ include Mongo
 #and false otherwise
 class SocialPrimitiveQueries
 	attr_accessor :people
-        # Create the object
-	def initialize()
-	    
-	end
+
  	def getFriends(userid) 
 		people.find("friend_ids" => {"$in" => [userid]}).to_a
 	end
