@@ -31,9 +31,9 @@ class GeoSN
 		result
 	end
 
-	#input : User u, location q, positive integer k
+	#input : User u, positive integer k
 	#output : Result set R
-	def nearestFriends(u, q, r)
+	def nearestFriends(u, r)
 		resultSet = Array.new
 		friends = socialModule.getFriends(u)
 		friends.each { |friend|
@@ -65,9 +65,9 @@ diff = (timer2-timer1)*1000
 puts "Finished at : #{diff} ms"
 
 timer1 = Time.now.to_f
-nearestFriends = geoSN.nearestFriends(1, QueryPoint.new(37.983917, 23.729360), 10)
+nearestFriends = geoSN.nearestFriends(1, 10)
 puts "==========================="
-puts "NearestFriends of user 1 to Athens: #{nearestFriends}"
+puts "NearestFriends of user 1: #{nearestFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000
 puts "Finished at : #{diff} ms"
