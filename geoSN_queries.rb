@@ -59,7 +59,7 @@ geoSN.socialModule = social
 timer1 = Time.now.to_f
 rangeFriends = geoSN.rangeFriends(1, QueryPoint.new(37.983917, 23.729360), 100)
 puts "==========================="
-puts "RangeFriends around Athens: #{rangeFriends}"
+puts "RangeFriends of user 1 from Athens: #{rangeFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000
 puts "Finished at : #{diff} ms"
@@ -67,7 +67,7 @@ puts "Finished at : #{diff} ms"
 timer1 = Time.now.to_f
 nearestFriends = geoSN.nearestFriends(1, QueryPoint.new(37.983917, 23.729360), 10)
 puts "==========================="
-puts "NearestFriends around Athens: #{nearestFriends}"
+puts "NearestFriends of user 1 to Athens: #{nearestFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000
 puts "Finished at : #{diff} ms"
