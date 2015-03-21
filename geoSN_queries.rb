@@ -29,11 +29,11 @@ class GeoSN
 			userLocation = geoModule.getUserLocation(friend['userId'])
 			rangeUsers = geoModule.rangeUsers(QueryPoint.new(userLocation[0], userLocation[1]), r)
 			results = []
-			rangeUsers.each do |hash|
-				if hash["userId"] == friend['userId']
-				  result.push(hash)
+			rangeUsers.each { |rangeUser|
+				if rangeUser["userId"] == friend['userId']
+				  result.push(rangeUser)
 				end
-			end
+			}
 		}
 		result
 	end
@@ -43,8 +43,12 @@ class GeoSN
 		result = Array.new
 		rangeUsers = geoModule.rangeUsers(q, r)
 		friends = socialModule.getFriends(userId)
-		# intersection
-		result = rangeUsers & rangeUsers
+		friends.each { |friend|
+				if rangeUsers.select{ |item| item['userId'] == friend['userId'] }.count>0
+					result.push(friend)
+				end
+		}
+		result
 	end
 
 	#algorithm variation 3
