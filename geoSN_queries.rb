@@ -20,7 +20,35 @@ class GeoSN
 
 	# Giver a user u , a 2D point q and a distance in meters r
 	# returns users withing the distance that they are friends together
-	def rangeFriends(userId, q, r)
+
+	#algorithm variation 1
+	def rangeFriends_1(userId, q, r)
+		result = Array.new
+		friends = socialModule.getFriends(userId)
+		friends.each { |friend|
+			userLocation = geoModule.getUserLocation(friend['userId'])
+			rangeUsers = geoModule.rangeUsers(QueryPoint.new(userLocation[0], userLocation[1]), r)
+			results = []
+			rangeUsers.each do |hash|
+				if hash["userId"] == friend['userId']
+				  result.push(hash)
+				end
+			end
+		}
+		result
+	end
+
+	#algorithm variation 2
+	def rangeFriends_2(userId, q, r)
+		result = Array.new
+		rangeUsers = geoModule.rangeUsers(q, r)
+		friends = socialModule.getFriends(userId)
+		# intersection
+		result = rangeUsers & rangeUsers
+	end
+
+	#algorithm variation 3
+	def rangeFriends_3(userId, q, r)
 		result = Array.new
 		rangeUsers = geoModule.rangeUsers(q, r)
 		rangeUsers.each { |user|
@@ -30,6 +58,7 @@ class GeoSN
 		}
 		result
 	end
+
 
 	#input : User u, positive integer k
 	#output : Result set R
@@ -57,12 +86,30 @@ geoSN.geoModule = geo
 geoSN.socialModule = social
 
 timer1 = Time.now.to_f
-rangeFriends = geoSN.rangeFriends(1, QueryPoint.new(37.983917, 23.729360), 100)
+rangeFriends = geoSN.rangeFriends_1(1, QueryPoint.new(37.983917, 23.729360), 100)
 puts "==========================="
-puts "RangeFriends of user 1 from Athens: #{rangeFriends}"
+puts "RangeFriends Variation 1 of user 1 from Athens: #{rangeFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000
 puts "Finished at : #{diff} ms"
+
+timer1 = Time.now.to_f
+rangeFriends = geoSN.rangeFriends_2(1, QueryPoint.new(37.983917, 23.729360), 100)
+puts "==========================="
+puts "RangeFriends Variation 2 of user 1 from Athens: #{rangeFriends}"
+timer2 = Time.now.to_f
+diff = (timer2-timer1)*1000
+puts "Finished at : #{diff} ms"
+
+timer1 = Time.now.to_f
+rangeFriends = geoSN.rangeFriends_3(1, QueryPoint.new(37.983917, 23.729360), 100)
+puts "==========================="
+puts "RangeFriends Variation 3 of user 1 from Athens: #{rangeFriends}"
+timer2 = Time.now.to_f
+diff = (timer2-timer1)*1000
+puts "Finished at : #{diff} ms"
+
+
 
 timer1 = Time.now.to_f
 nearestFriends = geoSN.nearestFriends(1, 10)
