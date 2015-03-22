@@ -13,11 +13,11 @@ people.create_index(:loc => Mongo::GEO2D)
 100.times { |i|
 	doc = {
 		"userId" => i,
-		"userName" => "TestUser",
+		"userName" => "TestUser #{i}",
 		"count" => 1,
 		"friend_ids" => [i-2, i-1, i+1, i+2],
 		#Random Coordinates
-		"loc" => [Random.rand(-90.000000..90.000000), Random.rand(-180.000000..180.000000)] 
+		"loc" => [Random.rand(-90.000000..90.000000), Random.rand(-180.000000..180.000000)]
 	}
 	id = people.insert(doc)
 	puts "Inserted : #{doc}"
