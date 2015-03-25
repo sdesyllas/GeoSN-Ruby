@@ -26,14 +26,14 @@ class GeoSN
 		result = Array.new
 		queryPoint = [q.lat, q.long]
 		friends = socialModule.getFriends(userId)
-		friends.each { |friend|
+		friends.each do |friend|
 			userLocation = geoModule.getUserLocation(friend['userId'])
 			friendDistance = distance(queryPoint, userLocation)
 			puts "distance #{friendDistance}"
 			if friendDistance <= r
 				result.push(friend)
 			end
-		}
+		end
 		result
 	end
 
@@ -42,11 +42,11 @@ class GeoSN
 		result = Array.new
 		rangeUsers = geoModule.rangeUsers(q, r)
 		friends = socialModule.getFriends(userId)
-		friends.each { |friend|
+		friends.each do |friend|
 				if rangeUsers.select{ |item| item['userId'] == friend['userId'] }.count>0
 					result.push(friend)
 				end
-		}
+		end
 		result
 	end
 
@@ -54,11 +54,11 @@ class GeoSN
 	def rangeFriends_3(userId, q, r)
 		result = Array.new
 		rangeUsers = geoModule.rangeUsers(q, r)
-		rangeUsers.each { |user|
+		rangeUsers.each do |user|
 			if socialModule.areFriends(userId, user['userId']) == true
 				result.push(user)
 			end
-		}
+		end
 		result
 	end
 
@@ -68,35 +68,41 @@ class GeoSN
 	def nearestFriends_1(u, q)
 		resultSet = Array.new
 		friends = socialModule.getFriends(u)
-		friends.each { |friend|
+		friends.each do |friend|
 			userLocation = geoModule.getUserLocation(friend['userId'])
-			friendDistance = distance([q[0], q[1]], userLocation)
+			friendDistance = distance([q.lat, q.long], userLocation)
 			resultSet.push([friend['userId'], friend['userName'], friendDistance])
-		}
+		end
 		resultSet.sort_by{ |hash| hash[2].to_i }
 	end
 
 	#input : User u, positive integer k
 	#output : Result set R
-	def nearestFriends_2(u, q)
+	def nearestFriends_2(u, q, k)
 		resultSet = Array.new
 		friends = socialModule.getFriends(u)
-		friends.each { |friend|
-			userLocation = geoModule.getUserLocation(friend['userId'])
-			resultSet.push([friend['userId'], userLocation])
-		}
+		nearestUsers = geoModule.nearestUsers(q, k)
+		nearestUsers.each do |nearestUser|
+			friends.each do |friend|
+				if friend['userId'] == nearestUser[0]
+					resultSet.push([friend['userId'], friend['userName'], nearestUser[2]])
+				end
+			end
+
+		end
 		resultSet
 	end
 
 	#input : User u, positive integer k
 	#output : Result set R
-	def nearestFriends_3(u, q)
+	def nearestFriends_3(u, q, k)
 		resultSet = Array.new
-		friends = socialModule.getFriends(u)
-		friends.each { |friend|
-			userLocation = geoModule.getUserLocation(friend['userId'])
-			resultSet.push([friend['userId'], userLocation])
-		}
+		nearestUsers = geoModule.nearestUsers(q, k)
+		nearestUsers.each do |nearestUser|
+			if socialModule.areFriends(u, nearestUser[0])
+				resultSet.push([nearestUser[0], nearestUser[1], nearestUser[2]])
+			end
+		end
 		resultSet
 	end
 
@@ -143,7 +149,7 @@ puts ""
 puts "==========================="
 puts ""
 timer1 = Time.now.to_f
-nearestFriends = geoSN.nearestFriends_1(1, 10)
+nearestFriends = geoSN.nearestFriends_1(1, QueryPoint.new(37.983917, 23.729360))
 puts "NearestFriends Variation 1 of user 1: #{nearestFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000
@@ -151,7 +157,7 @@ puts "Finished at : #{diff} ms"
 
 puts ""
 timer1 = Time.now.to_f
-nearestFriends = geoSN.nearestFriends_2(1, 10)
+nearestFriends = geoSN.nearestFriends_2(1, QueryPoint.new(37.983917, 23.729360), 100)
 puts "NearestFriends Variation 2 of user 1: #{nearestFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000
@@ -159,7 +165,7 @@ puts "Finished at : #{diff} ms"
 
 puts ""
 timer1 = Time.now.to_f
-nearestFriends = geoSN.nearestFriends_3(1, 10)
+nearestFriends = geoSN.nearestFriends_3(1, QueryPoint.new(37.983917, 23.729360), 100)
 puts "NearestFriends Variation 3 of user 1: #{nearestFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000

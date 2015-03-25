@@ -57,7 +57,7 @@ class PrimitiveTester
 		geo = GeoPrimitiveQueries.new
 		geo.people = people
 		rangeUsers = geo.rangeUsers(QueryPoint.new(37.983917, 23.729360), 100) #Athens coordinates
-		nearestUsers = geo.findNearest(QueryPoint.new(37.983917, 23.729360), 3) #Athens coordinates
+		nearestUsers = geo.nearestUsers(QueryPoint.new(37.983917, 23.729360), 3) #Athens coordinates
 		userLocation = geo.getUserLocation(1)
 		puts "============================================"
 		puts "GetUserLocation : #{userLocation}"
