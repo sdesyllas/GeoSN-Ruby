@@ -119,10 +119,10 @@ geo.people = people
 geoSN = GeoSN.new
 geoSN.geoModule = geo
 geoSN.socialModule = social
-
+k = 10000
 puts "==========================="
 timer1 = Time.now.to_f
-rangeFriends = geoSN.rangeFriends_1(1, QueryPoint.new(37.983917, 23.729360), 100)
+rangeFriends = geoSN.rangeFriends_1(1, QueryPoint.new(37.983917, 23.729360), k)
 puts ""
 puts "RangeFriends Variation 1 of user 1 from Athens: #{rangeFriends}"
 timer2 = Time.now.to_f
@@ -130,7 +130,7 @@ diff = (timer2-timer1)*1000
 puts "Finished at : #{diff} ms"
 
 timer1 = Time.now.to_f
-rangeFriends = geoSN.rangeFriends_2(1, QueryPoint.new(37.983917, 23.729360), 100)
+rangeFriends = geoSN.rangeFriends_2(1, QueryPoint.new(37.983917, 23.729360), k)
 puts ""
 puts "RangeFriends Variation 2 of user 1 from Athens: #{rangeFriends}"
 timer2 = Time.now.to_f
@@ -138,7 +138,7 @@ diff = (timer2-timer1)*1000
 puts "Finished at : #{diff} ms"
 
 timer1 = Time.now.to_f
-rangeFriends = geoSN.rangeFriends_3(1, QueryPoint.new(37.983917, 23.729360), 100)
+rangeFriends = geoSN.rangeFriends_3(1, QueryPoint.new(37.983917, 23.729360), k)
 puts ""
 puts "RangeFriends Variation 3 of user 1 from Athens: #{rangeFriends}"
 timer2 = Time.now.to_f
@@ -157,7 +157,7 @@ puts "Finished at : #{diff} ms"
 
 puts ""
 timer1 = Time.now.to_f
-nearestFriends = geoSN.nearestFriends_2(1, QueryPoint.new(37.983917, 23.729360), 100)
+nearestFriends = geoSN.nearestFriends_2(1, QueryPoint.new(37.983917, 23.729360), k)
 puts "NearestFriends Variation 2 of user 1: #{nearestFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000
@@ -165,7 +165,7 @@ puts "Finished at : #{diff} ms"
 
 puts ""
 timer1 = Time.now.to_f
-nearestFriends = geoSN.nearestFriends_3(1, QueryPoint.new(37.983917, 23.729360), 100)
+nearestFriends = geoSN.nearestFriends_3(1, QueryPoint.new(37.983917, 23.729360), k)
 puts "NearestFriends Variation 3 of user 1: #{nearestFriends}"
 timer2 = Time.now.to_f
 diff = (timer2-timer1)*1000

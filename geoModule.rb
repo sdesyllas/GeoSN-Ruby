@@ -25,6 +25,6 @@ class GeoPrimitiveQueries
 		people.find_one({"userId" => u})['loc']
 	end
 	def rangeUsers(q, r)
-		people.find({"loc" => {"$near" => [q.long, q.lat], "$maxDistance"=>r}}, {:limit => 100}).to_a
+		people.find({"loc" => {"$near" => [q.long, q.lat], "$maxDistance"=>r}}, {:limit => 10000}).to_a
 	end
 end
