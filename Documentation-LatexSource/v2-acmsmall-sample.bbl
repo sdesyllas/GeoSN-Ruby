@@ -1,3 +1,82 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{10}
+
+\bibitem{geohashorg}
+Geohash.
+\newblock \url{http://geohash.org/}.
+
+\bibitem{geoJSON}
+Geojson.
+\newblock \url{http://geojson.org/}.
+
+\bibitem{json}
+Json.
+\newblock \url{http://json.org/}.
+
+\bibitem{mongod}
+Mongodb.
+\newblock \url{http://www.mongodb.org/}.
+
+\bibitem{indexesmongo}
+Mongodb geospation-indexes.
+\newblock
+  \url{http://docs.mongodb.org/manual/applications/geospatial-indexes/}.
+
+\bibitem{opengeospatialcons}
+Open geospatial consortium.
+\newblock \url{http://www.opengeospatial.org/}.
+
+\bibitem{ruby}
+Ruby programming language.
+\newblock \url{https://www.ruby-lang.org/en/}.
+
+\bibitem{Armenatzoglou:geosn}
+N.~Armenatzoglou, S.~Papadopoulos, and D.~Papadias.
+\newblock A general framework for geo-social query processing.
+\newblock {\em Proc. VLDB Endow.}, 6(10):913--924, Aug. 2013.
+
+\bibitem{Beckmann:1990:RER:93605.98741}
+N.~Beckmann, H.-P. Kriegel, R.~Schneider, and B.~Seeger.
+\newblock The r*-tree: An efficient and robust access method for points and
+  rectangles.
+\newblock {\em SIGMOD Rec.}, 19(2):322--331, May 1990.
+
+\bibitem{Corral:ClosestPair}
+A.~Corral, Y.~Manolopoulos, Y.~Theodoridis, and M.~Vassilakopoulos.
+\newblock Closest pair queries in spatial databases.
+\newblock {\em SIGMOD Rec.}, 29(2):189--200, May 2000.
+
+\bibitem{Gaede:1998:MAM:280277.280279}
+V.~Gaede and O.~G\"{u}nther.
+\newblock Multidimensional access methods.
+\newblock {\em ACM Comput. Surv.}, 30(2):170--231, June 1998.
+
+\bibitem{Guting:spatialIntro}
+R.~H. G\"{u}ting.
+\newblock An introduction to spatial database systems.
+\newblock {\em The VLDB Journal}, 3(4):357--399, Oct. 1994.
+
+\bibitem{Guttman:1984:RDI:971697.602266}
+A.~Guttman.
+\newblock R-trees: A dynamic index structure for spatial searching.
+\newblock {\em SIGMOD Rec.}, 14(2):47--57, June 1984.
+
+\bibitem{Papadias:2003:QPS:1315451.1315520}
+D.~Papadias, J.~Zhang, N.~Mamoulis, and Y.~Tao.
+\newblock Query processing in spatial network databases.
+\newblock In {\em Proceedings of the 29th International Conference on Very
+  Large Data Bases - Volume 29}, VLDB '03, pages 802--813. VLDB Endowment,
+  2003.
+
+\bibitem{14-Pour.}
+E.~Pourabbas, editor.
+\newblock {\em Geographical Information Systems: Trends and Technologies}.
+\newblock "CRC Press Inc , Taylor and Francis Group:
+  http://www.crcpress.com/product/isbn/9781466596931", ISBN 9781466596931,
+  2014.
+
+\bibitem{NoSQLstorage}
+A.~B. Pouria~Amirian, Adam~Winstanley.
+\newblock Nosql storage and management of geospatial data with emphasis on
+  serving geospatial data using standard geospatial web services.
 
 \end{thebibliography}

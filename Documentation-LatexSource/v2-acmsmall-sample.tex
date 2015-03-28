@@ -33,11 +33,17 @@
 \begin{document}
 
 % Page heads
-\markboth{}{A General Framework for Geo-Social Query Processing: An Experimental Evaluation}
+\markboth{}{A General Framework for Geo-Social Query Processing
+: An Experimental
+Evaluation
+}
 
 % Title portion
-\title{A General Framework for Geo-Social Query Processing: An Experimental Evaluation}
-\author{SPIROS DESYLLAS
+\title{A General Framework for Geo-Social Query Processing
+: An Experimental
+Evaluation
+}
+\author{Spiros Desyllas
 \affil{University of Piraeus}
 }
 % NOTE! Affiliations placed here should be for the institution where the
@@ -48,335 +54,307 @@
 %       currently affiliated with NASA.
 
 \begin{abstract}
-Multifrequency media access control has been well understood in
-general wireless ad hoc networks, while in wireless sensor networks,
-researchers still focus on single frequency solutions. In wireless
-sensor networks, each device is typically equipped with a single
-radio transceiver and applications adopt much smaller packet sizes
-compared to those in general wireless ad hoc networks. Hence, the
-multifrequency MAC protocols proposed for general wireless ad hoc
-networks are not suitable for wireless sensor network applications,
-which we further demonstrate through our simulation experiments. In
-this article, we propose MMSN, which takes advantage of
-multifrequency availability while, at the same time, takes into
-consideration the restrictions of wireless sensor networks. Through
-extensive experiments, MMSN exhibits the prominent ability to utilize
-parallel transmissions among neighboring nodes. When multiple physical
-frequencies are available, it also achieves increased energy
-efficiency, demonstrating the ability to work against radio
-interference and the tolerance to a wide range of measured time
-synchronization errors.
-\end{abstract}
-
-\category{C.2.2}{Computer-Communication Networks}{Network Protocols}
-
-\terms{Design, Algorithms, Performance}
-
-\keywords{Wireless sensor networks, media access control,
-multi-channel, radio interference, time synchronization}
-
-\acmformat{Gang Zhou, Yafeng Wu, Ting Yan, Tian He, Chengdu Huang, John A. Stankovic,
-and Tarek F. Abdelzaher, 2010. A multifrequency MAC specially
-designed for  wireless sensor network applications.}
-% At a minimum you need to supply the author names, year and a title.
-% IMPORTANT:
-% Full first names whenever they are known, surname last, followed by a period.
-% In the case of two authors, 'and' is placed between them.
-% In the case of three or more authors, the serial comma is used, that is, all author names
-% except the last one but including the penultimate author's name are followed by a comma,
-% and then 'and' is placed before the final author's name.
-% If only first and middle initials are known, then each initial
-% is followed by a period and they are separated by a space.
-% The remaining information (journal title, volume, article number, date, etc.) is 'auto-generated'.
-
-\begin{bottomstuff}
-This work is supported by the National Science Foundation, under
-grant CNS-0435060, grant CCR-0325197 and grant EN-CS-0329609.
-
-Author's addresses: G. Zhou, Computer Science Department,
-College of William and Mary; Y. Wu  {and} J. A. Stankovic,
-Computer Science Department, University of Virginia; T. Yan,
-Eaton Innovation Center; T. He, Computer Science Department,
-University of Minnesota; C. Huang, Google; T. F. Abdelzaher,
-(Current address) NASA Ames Research Center, Moffett Field, California 94035.
-\end{bottomstuff}
-
+GeoSocial networks are systems consists of geo and social modules as presented in the work of Armenatzoglou et al.\cite{Armenatzoglou:geosn}. These modules work independently and collaborate in order to provide a framework of general Geo-Social query processing. In this paper we will try to evaluate this work by implementing a GeoSN network build upon NoSql Spatial capabilities. We examined different algorithm variations and measured the effectiveness of each in a thorough experiment. Finally we concluded by presenting which are the best algorithms for big amount of data.
+\end{abstract}                                                                                     
+          
 \maketitle
-
-
+% A category with the (minimum) three required fields
 \section{Introduction}
+A Geo-Social Network \cite{Armenatzoglou:geosn} is a system architecture that we can use in order to achieve a basic Geo-Social mechanism. According to this architecture a GeoSN network consists of : 
 
-As a new technology, Wireless Sensor Networks (WSNs) has a wide
-range of applications [Culler 2001,Bahl 2002,Akyildiz 2001], including
-environment monitoring, smart buildings, medical care, industrial and
-military applications. Among them, a recent trend is to develop
-commercial sensor networks that require pervasive sensing of both
-environment and human beings, for example, assisted living
-[Akyildiz 2002,Harvard 2001,CROSSBOW] and smart homes
-[Harvard 2001,Adya 2001,CROSSBOW].
-% quote
-\begin{quote}
-``For these applications, sensor devices are incorporated into human
-cloths [Natarajan 2001,Zhou 2006,Bahl 2002,Adya 2001] for monitoring
-health related information like EKG readings, fall detection, and voice recognition".
-\end{quote}
-While collecting all these multimedia information
-[Akyildiz 2002] requires a high network throughput, off-the-shelf
-sensor devices only provide very limited bandwidth in a single
-channel: 19.2Kbps in MICA2 [Bahl 2002] and 250Kbps in MICAz.
-
-In this article, we propose MMSN, abbreviation for Multifrequency
-Media access control for wireless Sensor Networks. The main
-contributions of this work can be summarized as follows.
-% itemize
+There are some primitive queries that a spatial database can perform such as:
 \begin{itemize}
-\item To the best of our knowledge, the MMSN protocol is the first
-multifrequency MAC protocol especially designed for WSNs, in which
-each device is equipped with a single radio transceiver and
-the MAC layer packet size is very small.
-\item Instead of using pairwise RTS/CTS frequency negotiation
-[Adya 2001,Culler 2001; Tzamaloukas 2001; Zhou 2006],
-we propose lightweight frequency assignments, which are good choices
-for many deployed comparatively static WSNs.
-\item We develop new toggle transmission and snooping techniques to
-enable a single radio transceiver in a sensor device to achieve
-scalable performance, avoiding the nonscalable ``one
-control channel + multiple data channels'' design [Natarajan 2001].
+  \item Social Module
+  \item Geo Module
+  \item Query Processing Module
 \end{itemize}
 
-% Head 1
-\section{MMSN Protocol}
+The proposed architecture consists of three modules, depicted in
+Figure 1: a social module (SM), a geographical module (GM), and
+a query processing module (QM). The SM stores exclusively social
+data (e.g., friendship relations), whereas the GM keeps only
+geographical information (e.g., check-ins). The QM is responsible
+for receiving GeoSN queries from users, executing them, and returning
+the results. The users do not communicate directly with the
+SM and GM. The SM, GM and QM can either be three separate
+servers, three separate clouds, or a single system (server or cloud).
+However, the tasks of the three modules are segregated.
 
-% Head 2
-\subsection{Frequency Assignment}
-
-We propose a suboptimal distribution to be used by each node, which is
-easy to compute and does not depend on the number of competing
-nodes. A natural candidate is an increasing geometric sequence, in
-which
-% Numbered Equation
-\begin{equation}
-\label{eqn:01}
-P(t)=\frac{b^{\frac{t+1}{T+1}}-b^{\frac{t}{T+1}}}{b-1},
-\end{equation}
-where $t=0,{\ldots}\,,T$, and $b$ is a number greater than $1$.
-
-In our algorithm, we use the suboptimal approach for simplicity and
-generality. We need to make the distribution of the selected back-off
-time slice at each node conform to what is shown in Equation
-(\ref{eqn:01}). It is implemented as follows: First, a random
-variable $\alpha$ with a uniform distribution within the interval
-$(0, 1)$ is generated on each node, then time slice $i$ is selected
-according to the following equation:
-% Unnumbered Equation
-\[
-i=\lfloor(T+1)\log_b[\alpha(b-1)+1]\rfloor.
-\]
-It can be easily proven that the distribution of $i$ conforms to Equation
-(\ref{eqn:01}).
-
-So protocols [Bahl 2002,Culler 2001,Zhou 2006,Adya 2001,Culler 2001;
-Tzamaloukas-01; Akyildiz-01] that use RTS/CTS
-controls\footnote{RTS/CTS controls are required to be implemented by
-802.11-compliant devices. They can be used as an optional mechanism
-to avoid Hidden Terminal Problems in the 802.11 standard and
-protocols based on those similar to [Akyildiz 2001] and
-[Adya 2001].} for frequency negotiation and reservation are not
-suitable for WSN applications, even though they exhibit good
-performance in general wireless ad hoc
-networks.
-
-% Head 3
-\subsubsection{Exclusive Frequency Assignment}
-
-In exclusive frequency assignment, nodes first exchange their IDs
-among two communication hops so that each node knows its two-hop
-neighbors' IDs. In the second broadcast, each node beacons all
-neighbors' IDs it has collected during the first broadcast period.
-
-% Head 4
-\paragraph{Eavesdropping}
-
-Even though the even selection scheme leads to even sharing of
-available frequencies among any two-hop neighborhood, it involves a
-number of two-hop broadcasts. To reduce the communication cost, we
-propose a lightweight eavesdropping scheme.
-
-\subsection{Basic Notations}
-
-As Algorithm~\ref{alg:one} states, for each frequency
-number, each node calculates a random number (${\textit{Rnd}}_{\alpha}$) for
-itself and a random number (${\textit{Rnd}}_{\beta}$) for each of its two-hop
-neighbors with the same pseudorandom number generator.
-% Algorithm
-\begin{algorithm}[t]
-\SetAlgoNoLine
-\KwIn{Node $\alpha$'s ID ($ID_{\alpha}$), and node $\alpha$'s
-neighbors' IDs within two communication hops.}
-\KwOut{The frequency number ($FreNum_{\alpha}$) node $\alpha$ gets assigned.}
-$index$ = 0; $FreNum_{\alpha}$ = -1\;
-\Repeat{$FreNum_{\alpha} > -1$}{
-        $Rnd_{\alpha}$ = Random($ID_{\alpha}$, $index$)\;
-        $Found$ = $TRUE$\;
-        \For{each node $\beta$ in $\alpha$'s two communication hops
-    }{
-      $Rnd_{\beta}$ = Random($ID_{\beta}$, $index$)\;
-      \If{($Rnd_{\alpha} < Rnd_{\beta}$) \text{or} ($Rnd_{\alpha}$ ==
-          $Rnd_{\beta}$ \text{and} $ID_{\alpha} < ID_{\beta}$)\;
-      }{
-        $Found$ = $FALSE$; break\;
-      }
-        }
-     \eIf{$Found$}{
-           $FreNum_{\alpha}$ = $index$\;
-         }{
-           $index$ ++\;
-     }
-      }
-\caption{Frequency Number Computation}
-\label{alg:one}
-\end{algorithm}
-
-Bus masters are divided into two disjoint sets, $\mathcal{M}_{RT}$
-and $\mathcal{M}_{NRT}$.
-% description
-\begin{description}
-\item[RT Masters]
-$\mathcal{M}_{RT}=\{ \vec{m}_{1},\dots,\vec{m}_{n}\}$ denotes the
-$n$ RT masters issuing real-time constrained requests. To model the
-current request issued by an $\vec{m}_{i}$ in $\mathcal{M}_{RT}$,
-three parameters---the recurrence time $(r_i)$, the service cycle
-$(c_i)$, and the relative deadline $(d_i)$---are used, with their
-relationships.
-\item[NRT Masters]
-$\mathcal{M}_{NRT}=\{ \vec{m}_{n+1},\dots,\vec{m}_{n+m}\}$ is a set
-of $m$ masters issuing nonreal-time constrained requests. In our
-model, each $\vec{m}_{j}$ in $\mathcal{M}_{NRT}$ needs only one
-parameter, the service cycle, to model the current request it
-issues.
-\end{description}
-
-Here, a question may arise, since each node has a global ID. Why
-don't we just map nodes' IDs within two hops into a group of
-frequency numbers and assign those numbers to all nodes within two
-hops?
-
-\section{Simulator}
-\label{sec:sim}
-
-If the model checker requests successors of a state which are not
-created yet, the state space uses the simulator to create the
-successors on-the-fly. To create successor states the simulator
-conducts the following steps.
-% enumerate
-\begin{enumerate}
-\item Load state into microcontroller model.
-\item Determine assignments needed for resolving nondeterminism.
-\item For each assignment.
-      \begin{enumerate}
-      \item either call interrupt handler or simulate effect of next instruction, or
-      \item evaluate truth values of atomic propositions.
-      \end{enumerate}
-\item Return resulting states.
-\end{enumerate}
-Figure~\ref{fig:one} shows a typical microcontroller C program that
-controls an automotive power window lift. The program is one of the
-programs used in the case study described in Section~\ref{sec:sim}.
-At first sight, the programs looks like an ANSI~C program. It
-contains function calls, assignments, if clauses, and while loops.
-% Figure
-\begin{figure}
-\centerline{\includegraphics{acmsmall-mouse}}
-\caption{Code before preprocessing.}
-\label{fig:one}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{./graphics/geoSNArchitecture}
+\caption{Proposed GeoSN architecture}
+\label{fig:geoSNArchitecture}
 \end{figure}
 
-\subsection{Problem Formulation}
+A separation like this can provides numerous benefits such as administration by
+different entities.The separation of QM enables third-party companies that do not own
+any social or geographical data to implement GeoSN queries by
+solely interacting with the APIs of SM and GM. In addition, separating the functionality of SM and GM renders
+the management of social and geographical data more flexible, because
+the frequent check-in updates do not burden the relatively
+static social structures.
 
-The objective of variable coalescence-based offset assignment is to find
-both the coalescence scheme and the MWPC on the coalesced graph. We start
-with a few definitions and lemmas for variable coalescence.
+Finally, the segregation offers several other benefits. First of all the studied
+architecture can readily integrate modifications (e.g., a new, more
+efficient structure) in the implementation of SM without modifying
+GM, and vice versa. Second, novel GeoSN query types and
+algorithms can be devised, either by using a different combination
+of existing primitives or by implementing new ones, without the
+need of altering the SM and GM infrastructures. Last, social (geographical)
+data can be used independently for pure social (resp.
+geographical) queries, potentially through the same primitive operations
+utilized by GeoSN queries. As a result, a “traditional” social
+network can adopt this architecture without extra effort.
 
-% Enunciations
-\begin{definition}[Coalesced Node (C-Node)]A C-node is a set of
-live ranges (webs) in the AG or IG that are coalesced. Nodes within the same
-C-node cannot interfere with each other on the IG. Before any coalescing is
-done, each live range is a C-node by itself.
-\end{definition}
+\section{Algorithms and variations}
+The following algorithms are implemented in this paper in order to achieve complex queries like RangeFriends and NearestFriends
 
-\begin{definition}[C-AG (Coalesced Access Graph)]The C-AG is the access
-graph after node coalescence, which is composed of all C-nodes and C-edges.
-\end{definition}
+\subsection{Range Friends Algorithms}
+Problem formulation. Simply stated, RF returns the friends of
+user u that are within distance r to a location q. More formally:
+PROBLEM 1. Given a user u, a 2D point q and a positive real
+number r, a Range Friends (RF) query RF(u, q, r) returns a set
+R defined as follows:
+\newline
+\newline
+$  R = {ui | AreFriends(u, ui) ∧ ||q, ui|| ≤ r} $
+\newline
+\newline
+Similar to RangeUsers and NearestUsers, the result contains
+also the users’ locations. For example, RF(u4, q, 8) = {u2} and
+RF(u5, q, 10) = {u1, u3}, where u1, u2, u3 carry both their ID
+and location. This may be particularly useful for other GeoSN
+queries that use RF as a subroutine, while it comes with a free
+asymptotic cost (since the locations must be retrieved to answer the
+query anyway, and do not add to the space complexity of the result).
+We next describe three solutions for the RF query, whose pseudocode
+is given in Figure 2.
 
-\begin{lemma}
-The C-MWPC problem is NP-complete.
-\end{lemma}
-\begin{proof} C-MWPC can be easily reduced to the MWPC problem assuming a
-coalescence graph without any edge or a fully connected interference graph.
-Therefore, each C-node is an uncoalesced live range after value separation
-and C-PC is equivalent to PC. A fully connected interference graph is made
-possible when all live ranges interfere with each other. Thus, the C-MWPC
-problem is NP-complete.
-\end{proof}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{./graphics/RF_algorithm}
+\caption{Pseudocode of RF algorithms}
+\label{fig:RF_algorithm}
+\end{figure}
 
-\begin{lemma}[Lemma Subhead]The solution to the C-MWPC problem is no
-worse than the solution to the MWPC.
-\end{lemma}
-\begin{proof}
-Simply, any solution to the MWPC is also a solution to the
-C-MWPC. But some solutions to C-MWPC may not apply to the MWPC (if any
-coalescing were made).
-\end{proof}
+\textbf{Algorithm 1 (RF1)}
+\newline
+This variant first extracts the set F of u’s
+friends invoking primitive $GetFriends(u)$ in Line 1. Subsequently
+(Lines 2-4), for every ui ∈ F, it retrieves its location via primitive
+$GetUserLocation(ui)$, and inserts ui in result set R if the distance
+between ui and q is smaller than or equal to r. For example,
+$RF1(u4, q, 8)$ first computes $F = {u2, u3, u6}$ and retrieves the
+user locations. Then, it adds only u2 to R, since $||q, u2|| = 6.4 ≤ 8
+(||q, u3|| = 10 > 8, and ||q, u6|| = 12.2 > 8)$.
 
-\section{Performance Evaluation}
+\textbf{Algorithm 2 (RF2)}
+\newline
+This algorithm gets the friends of u through
+$GetFriends(u)$, and executes $RangeUsers(q, r)$ to get the users
+that are within distance r to q. Finally, it performs an intersection
+between these two sets, which yields the result R. For instance,
+$RF2(u4, q, 8)$ performs $GetFriends(u4) ∩ RangeUsers(q, 8) =
+{u2, u3, u6} ∩ {u1, u2} = {u2}$.
 
-During all the experiments, the Geographic Forwarding (GF)
-[Akyildiz 2001] routing protocol is used. GF exploits geographic
-information of nodes and conducts local data-forwarding to achieve
-end-to-end routing. Our simulation is
-configured according to the settings in
-Table~\ref{tab:one}. Each run lasts for 2 minutes and
-repeated 100 times. For each data value we present in the results,
-we also give its 90\% confidence interval.
-% Table
-\begin{table}%
-\tbl{Simulation Configuration\label{tab:one}}{%
-\begin{tabular}{|l|l|}
-\hline
-TERRAIN{$^a$}   & (200m$\times$200m) Square\\\hline
-Node Number     & 289\\\hline
-Node Placement  & Uniform\\\hline
-Application     & Many-to-Many/Gossip CBR Streams\\\hline
-Payload Size    & 32 bytes\\\hline
-Routing Layer   & GF\\\hline
-MAC Layer       & CSMA/MMSN\\\hline
-Radio Layer     & RADIO-ACCNOISE\\\hline
-Radio Bandwidth & 250Kbps\\\hline
-Radio Range     & 20m--45m\\\hline
-\end{tabular}}
-\begin{tabnote}%
-\Note{Source:}{This is a table
-sourcenote. This is a table sourcenote. This is a table
-sourcenote.}
-\vskip2pt
-\Note{Note:}{This is a table footnote.}
-\tabnoteentry{$^a$}{This is a table footnote. This is a
-table footnote. This is a table footnote.}
-\end{tabnote}%
-\end{table}%
+\textbf{Algorithm 3 (RF3)}
+\newline
+RF3 calculates $U = RangeUsers(q, r)$, and
+then inserts $ui ∈ U into R if AreFriends(u, ui) = true.$ In our
+running example, $RF3(u4, q, 8)$ first executes $RangeUsers(q, 8)
+= {u1, u2}$, and then calculates $AreFriends(u4, u1) = false$ and
+$AreFriends(u4, u2) = true$. Consequently, the algorithm returns
+$R = {u2}$ as the result.
+
+
+The above algorithms have important differences. For instance,
+RF2 and RF3 necessitate a spatial index for efficient range query
+processing. RF3 could also benefit from an adjacency matrix implementation
+(because it invokes AreFriends numerous times). In
+addition, as we demonstrate in our experiments, the machine architecture
+(centralized or distributed) has a significant impact on their
+relative performance. Finally, the data and query parameters are
+also vital in determining the best algorithm, e.g., if there are few
+users within a range, RF2 and RF3 are preferable to RF1, while
+RF1 is better for sparse social networks of users in the same geographic
+area.
+
+\subsection{Nearest Friends Algorithms}
+
+Problem formulation. NF returns the k friends of user u that are
+closest to location q in ascending distance. Formally:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{./graphics/NF_algorithm}
+\caption{Pseudocode of NF algorithms}
+\label{fig:NF_algorithm}
+\end{figure}
+
+PROBLEM 2. Given a user u, a 2D point q and a positive integer
+k, a Nearest Friends (NF) query NF(u, q, k) returns a list
+
+For example, NF(u2, q, 2) = (u4, u6). Similar to the case of
+RF, the result incorporates the user locations. Figure 3 includes the
+pseudocode of three solution variants for NF, explained next
+
+\textbf{Algorithm 1 (NF1)}
+NF1 first calculates F = GetFriends(u),
+and gets the location of every ui ∈ F via GetUserLocation(ui).
+Subsequently, it sorts F in ascending distance of each user therein
+to q, and inserts the first k entries of F into R. In our example,
+NF1(u2, q, 2) retrieves F = GetFriends(u2) = {u4, u6, u9},
+extracts the user locations via three calls to GetUserLocation,
+sorts F in ascending distance of each ui ∈ F to q producing ordered
+list (u4, u6, u9). It finally returns the first 2 users in the list,
+i.e., R = (u4, u6).
+
+\textbf{Algorithm 2 (NF2)}
+ NF2 first extracts the friends F of u through
+GetFriends(u). It then iteratively retrieves the next nearest user ui
+to q by calling NextNearestUser . If ui is in F, it is added to R.
+When the size of R becomes equal to k, we are certain that we have
+evaluated the correct result. In Figure 2, NF2(u2, q, 2) evaluates
+F = GetFriends(u2) = {u4, u6, u9}. Then, it gets u1 as the
+result of the first call to NextNearestUser (q). Since u1 6∈ F, it is
+not added to R. Subsequently, it proceeds with retrieving users u2-
+u6 through 5 calls to NextNearestUser (q), and adds only u4 ∈ F
+and u6 ∈ F to R. At this point |R| becomes 2 and, thus, the
+method returns R to the user and terminates.
+
+\textbf{Algorithm 3 (NF3)}
+NF3 is similar to NF2, but instead of invoking
+GetFriends, it utilizes AreFriends for checking the friendship
+between a user retrieved by NextNearestUser and u. In our running
+example, NF3(u2, q, 2) iteratively computes users u1-u6 via
+six calls to NextNearestUser , and performs an AreFriends primitive
+for each of them. During this process, it adds u4, u6 to R
+(since only those are friends with u2), and concludes (|R| = 2).
+Similar to the RF algorithms, the relative performance of the
+NF solutions depends on the implementation, existing indexes, machine
+architecture, data distribution, and query parameters
+
+\section{Modules Implementation}
+After examining the algorithm variations for these two type of queryes (RF and NF) we proceed to the actual implementation of the modules.
+For the implementation we used Ruby\cite{ruby} programming language for coding the api of the modules and the middleware of the database and MongoDB\cite{mongod} in order to store and index data.
+We used MongoDB indexes in order to store social and geo data. For the social module we used MongoDB's single field to index the UserId and for the geo module we used GEO2D (2d Sphere) to index user location. We used GeoJSON\cite{geoJSON} to store user location as it is supported by MongoDB geospatial indexes. With the use of GEO2D index the Geo Module can perform the following basic geospatial queries as presented by Theodoridis et al. \cite{Corral:ClosestPair}
+
+\begin{itemize}
+  \item Point Location Query
+  \item Range Query
+  \item Join Query
+  \item Nearest Neighbor Query
+\end{itemize}
+
+
+\subsection{Social Module}
+The social module consists of a ruby class file which provide the following methods:
+$getFriends(userid)$ and $areFriends(userid_1, userid_2)$. These two methods implement the primitive queries and mechanics for the social module. 
+The $getFriends(userid)$ takes a userId as input and returns all the friends of the given user id in the form of a JSON \cite{json} array.
+The $areFriends(userid_1, userid_2)$ method takes the ids of two users and returns
+$True$ if the two users are friends and false if not
+
+\subsection{Geo Module}
+The geo module consists of a ruby class file which provide the following methods:
+$nearestUsers(q, k)$, $getUserLocation(u)$ and $rangeUsers(q, r)$. These methods implement the primitive queries and mechanics for the geo module.
+nearestUsers  takes a query point q and an integer k as input and returns the k users nearest to q in in ascending distance, along with their locations in a form of a JSON\cite{json} array.
+getUserLocation takes user id as an input and returns the user's location in the form a pair coordinate (latitude and longitude).
+Finally rangeUsers takes a query point q and distance in meters r as input and returns the users within distance r from q, along with their locations, again in a form of JSON\cite{json} array.
+
+
+\subsection{Query Processing Modules}
+The query processing module is a ruby class file which actually uses the above implemented modules in order to achieve more complex queries based on the primitive ones of the previous mentioned modules.
+This module initially makes a connection to the social and geo module in order to be able to used them. We stored geo and social data in MongoDB as already mentioned so this module uses Mongod Ruby driver in order to connect to MongoDB. Some portions of the driver are implemented in c++ for performance reasons. The methods implemented in this module are : rangeFriends and nearestFriends. We developed 3 different variations for each method based on the algorithms that we presented in the section above.
+Method rangeFriends takes a user u , a 2D point q and a distance in meters r as input and returns all friends within the given range as a JSON array.
+Method nearestFriends takes User u and a positive integer k as input and returns a JSON array consisting friend's Id and friend's distance from q in ascending order.
+
+
+
+\section{Evaluation and Running examples}
+In order to initially provide synthetic data sets to modules we implemented a seed ruby program that randomly created users and location based on random latitude and longitude. Each user has the two previous and two next created as friends. We then run a warm up script in order to perform some queries to MongoDB in order to warm up caches. The first test run included 100 users and the second run test included 10000 users. We wanted to test algorithm variations with a small and a big data set to test if their performance was influenced by the size of data. All the tests war run using an AMD A6 Dual Core Cpu clocked at 4.1Ghz and 4GB Ram. The datasets were stored in a regural HDD drive and MongoDB was set up in a Linux Ubuntu desktop distribution.
+
+\section{Small DataSet measurements}
+In the following tables we can see the test results for the small dataset of the 100 users
+for the RangeFriends and Nearest Friends query processing
+\newline
+
+\textbf{Range Friends (RF) - 100 Records}
+\begin{tabular}{|c|c|}
+\hline \rule[-2ex]{0pt}{5.5ex} Aglorithm Variation & Execution Time (ms) \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} A & 2.33 \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} B & 9.64 \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} C & 52.42 \\ 
+\hline 
+\end{tabular} 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{./graphics/rf_100}
+\caption{Range Friends (RF) - 100 Records}
+\label{fig:nf_100}
+\end{figure}
+
+
+\textbf{Nearest Friends (NF) - 100 Records}
+\begin{tabular}{|c|c|}
+\hline \rule[-2ex]{0pt}{5.5ex} Aglorithm Variation & Execution Time (ms) \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} A & 1.34 \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} B & 3.73 \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} C & 47.11 \\ 
+\hline 
+\end{tabular} 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{./graphics/nf_100}
+\caption{Nearest Friends (NF) - 100 Records}
+\label{fig:nf_100}
+\end{figure}
+
+\section{Big DataSet measurements}
+In the following tables we can see the test results for the big dataset of the 1000 users
+for the RangeFriends and Nearest Friends query processing
+\newline
+
+\textbf{Range Friends (RF) - 10000 Records}
+\begin{tabular}{|c|c|}
+\hline \rule[-2ex]{0pt}{5.5ex} Aglorithm Variation & Execution Time (ms) \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} A & 8.37 \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} B & 298.43 \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} C & 4529.02 \\ 
+\hline 
+\end{tabular} 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{./graphics/rf_10000}
+\caption{Range Friends (RF) - 10000 Records}
+\label{fig:nf_100}
+\end{figure}
+
+
+\textbf{Nearest Friends (NF) - 10000 Records}
+\begin{tabular}{|c|c|}
+\hline \rule[-2ex]{0pt}{5.5ex} Aglorithm Variation & Execution Time (ms) \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} A & 8.2 \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} B & 389.62 \\ 
+\hline \rule[-2ex]{0pt}{5.5ex} C & 4856.17 \\ 
+\hline 
+\end{tabular} 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{./graphics/nf_10000}
+\caption{Nearest Friends (NF) - 10000 Records}
+\label{fig:nf_100}
+\end{figure}
+
+
 
 \section{Conclusions}
-
-In this article, we develop the first multifrequency MAC protocol for
-WSN applications in which each device adopts a
-single radio transceiver. The different MAC design requirements for
-WSNs and general wireless ad-hoc networks are
-compared, and a complete WSN multifrequency MAC design (MMSN) is
-put forth. During the MMSN design, we analyze and evaluate different
-choices for frequency assignments and also discuss the nonuniform
-back-off algorithms for the slotted media access design.
-
-% Start of "Sample References" section
+In this paper, we focused on spatial aspects of Databases. We examined their general use and the various fields of science and commerce that they can be applied. Later we presented the basic operations and modelling of spatial entities along with query processing and indexing. Finally we presented the most popular NoSQL databases and examined their geospatial capabilities.
+%\end{document}  % This is where a 'short' article might terminate
 
 
 % Bibliography
@@ -387,6 +365,7 @@ back-off algorithms for the slotted media access design.
                              % the 'Specifications Document (V1.5)' as well containing
                              % 'legacy' bibs and bibs with 'alternate codings'.
                              % Gerry Murray - March 2012
+
 
 
 \end{document}

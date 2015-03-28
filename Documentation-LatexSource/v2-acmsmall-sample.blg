@@ -1,33 +1,13 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: v2-acmsmall-sample.aux
 The style file: abbrv.bst
 Database file #1: spatialBibliography.bib
-Warning--I didn't find a database entry for "Abril07"
-Warning--I didn't find a database entry for "Cohen07"
-Warning--I didn't find a database entry for "JCohen96"
-Warning--I didn't find a database entry for "Kosiur01"
-Warning--I didn't find a database entry for "Harel79"
-Warning--I didn't find a database entry for "Editor00"
-Warning--I didn't find a database entry for "Editor00a"
-Warning--I didn't find a database entry for "Spector90"
-Warning--I didn't find a database entry for "Douglass98"
-Warning--I didn't find a database entry for "Knuth97"
-Warning--I didn't find a database entry for "Andler79"
-Warning--I didn't find a database entry for "Smith10"
-Warning--I didn't find a database entry for "VanGundy07"
-Warning--I didn't find a database entry for "Harel78"
-Warning--I didn't find a database entry for "Clarkson85"
-Warning--I didn't find a database entry for "anisi03"
-Warning--I didn't find a database entry for "Thornburg01"
-Warning--I didn't find a database entry for "Ablamowicz07"
-Warning--I didn't find a database entry for "Poker06"
-Warning--I didn't find a database entry for "Obama08"
-Warning--I didn't find a database entry for "Novak03"
-Warning--I didn't find a database entry for "Lee05"
-Warning--I didn't find a database entry for "JoeScientist001"
-Warning--I didn't find a database entry for "rous08"
-Warning--I didn't find a database entry for "SaeediMEJ10"
-Warning--I didn't find a database entry for "SaeediJETC10"
-Warning--I didn't find a database entry for "Kirschmer:2010:AEI:1958016.1958018"
-Warning--I didn't find a database entry for "MR781536"
-Warning--I didn't find a database entry for "MR781537"
-(There were 29 warnings)
+Warning--to sort, need author or key in ruby
+Warning--to sort, need author or key in mongod
+Warning--to sort, need author or key in json
+Warning--to sort, need author or key in opengeospatialcons
+Warning--to sort, need author or key in geohashorg
+Warning--to sort, need author or key in geoJSON
+Warning--to sort, need author or key in indexesmongo
+Warning--empty journal in NoSQLstorage
+Warning--empty year in NoSQLstorage
+(There were 9 warnings)
