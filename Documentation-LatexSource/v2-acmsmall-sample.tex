@@ -11,7 +11,7 @@
 %
 % For tracking purposes => this is v1.3 - March 2012
 
-\documentclass[prodmode,acmtecs]{acmsmall} % Aptara syntax
+\documentclass[prodmode,acmtods]{acmsmall} % Aptara syntax
 
 % Package to generate and customize Algorithm as per ACM style
 \usepackage[ruled]{algorithm2e}
@@ -23,34 +23,23 @@
 \IncMargin{-\parindent}
 
 % Metadata Information
-\acmVolume{9}
-\acmNumber{4}
-\acmArticle{39}
-\acmYear{2010}
+\acmVolume{1}
+\acmNumber{1}
+\acmArticle{1}
+\acmYear{2015}
 \acmMonth{3}
 
 % Document starts
 \begin{document}
 
 % Page heads
-\markboth{G. Zhou et al.}{A Multifrequency MAC Specially Designed for WSN Applications}
+\markboth{}{A General Framework for Geo-Social Query Processing: An Experimental Evaluation}
 
 % Title portion
-\title{A Multifrequency MAC Specially Designed for Wireless Sensor Network Applications}
-\author{GANG ZHOU
-\affil{College of William and Mary}
-YAFENG WU
-\affil{University of Virginia}
-TING YAN
-\affil{Eaton Innovation Center}
-TIAN HE
-\affil{University of Minnesota}
-CHENGDU HUANG
-\affil{Google}
-JOHN A. STANKOVIC
-\affil{University of Virginia}
-TAREK F. ABDELZAHER
-\affil{University of Illinois at Urbana-Champaign}}
+\title{A General Framework for Geo-Social Query Processing: An Experimental Evaluation}
+\author{SPIROS DESYLLAS
+\affil{University of Piraeus}
+}
 % NOTE! Affiliations placed here should be for the institution where the
 %       BULK of the research was done. If the author has gone to a new
 %       institution, before publication, the (above) affiliation should NOT be changed.
@@ -389,96 +378,16 @@ back-off algorithms for the slotted media access design.
 
 % Start of "Sample References" section
 
-\section{Typical references in new ACM Reference Format}
-A paginated journal article \cite{Abril07}, an enumerated
-journal article \cite{Cohen07}, a reference to an entire issue \cite{JCohen96},
-a monograph (whole book) \cite{Kosiur01}, a monograph/whole book in a series (see 2a in spec. document)
-\cite{Harel79}, a divisible-book such as an anthology or compilation \cite{Editor00}
-followed by the same example, however we only output the series if the volume number is given
-\cite{Editor00a} (so Editor00a's series should NOT be present since it has no vol. no.),
-a chapter in a divisible book \cite{Spector90}, a chapter in a divisible book
-in a series \cite{Douglass98}, a multi-volume work as book \cite{Knuth97},
-an article in a proceedings (of a conference, symposium, workshop for example)
-(paginated proceedings article) \cite{Andler79}, a proceedings article
-with all possible elements \cite{Smith10}, an example of an enumerated
-proceedings article \cite{VanGundy07},
-an informally published work \cite{Harel78}, a doctoral dissertation \cite{Clarkson85},
-a master's thesis: \cite{anisi03}, an online document / world wide web resource \cite{Thornburg01}, \cite{Ablamowicz07},
-\cite{Poker06}, a video game (Case 1) \cite{Obama08} and (Case 2) \cite{Novak03}
-and \cite{Lee05} and (Case 3) a patent \cite{JoeScientist001},
-work accepted for publication \cite{rous08}, 'YYYYb'-test for prolific author
-\cite{SaeediMEJ10} and \cite{SaeediJETC10}. Other cites might contain
-'duplicate' DOI and URLs (some SIAM articles) \cite{Kirschmer:2010:AEI:1958016.1958018}.
-Boris / Barbara Beeton: multi-volume works as books
-\cite{MR781536} and \cite{MR781537}.
-
-% Appendix
-\appendix
-\section*{APPENDIX}
-\setcounter{section}{1}
-In this appendix, we measure
-the channel switching time of Micaz [CROSSBOW] sensor devices.
-In our experiments, one mote alternatingly switches between Channels
-11 and 12. Every time after the node switches to a channel, it sends
-out a packet immediately and then changes to a new channel as soon
-as the transmission is finished. We measure the
-number of packets the test mote can send in 10 seconds, denoted as
-$N_{1}$. In contrast, we also measure the same value of the test
-mote without switching channels, denoted as $N_{2}$. We calculate
-the channel-switching time $s$ as
-\begin{eqnarray}%
-s=\frac{10}{N_{1}}-\frac{10}{N_{2}}. \nonumber
-\end{eqnarray}%
-By repeating the experiments 100 times, we get the average
-channel-switching time of Micaz motes: 24.3$\mu$s.
-
-\appendixhead{ZHOU}
-
-% Acknowledgments
-\begin{acks}
-The authors would like to thank Dr. Maura Turolla of Telecom
-Italia for providing specifications about the application scenario.
-\end{acks}
 
 % Bibliography
-\bibliographystyle{ACM-Reference-Format-Journals}
-\bibliography{acmsmall-sample-bibfile}
+\bibliographystyle{abbrv}
+%\bibliography{acmsmall-sample-bibfile}
+\bibliography{spatialBibliography}
                              % Sample .bib file with references that match those in
                              % the 'Specifications Document (V1.5)' as well containing
                              % 'legacy' bibs and bibs with 'alternate codings'.
                              % Gerry Murray - March 2012
 
-% History dates
-\received{February 2007}{March 2009}{June 2009}
-
-% Electronic Appendix
-\elecappendix
-
-\medskip
-
-\section{This is an example of Appendix section head}
-
-Channel-switching time is measured as the time length it takes for
-motes to successfully switch from one channel to another. This
-parameter impacts the maximum network throughput, because motes
-cannot receive or send any packet during this period of time, and it
-also affects the efficiency of toggle snooping in MMSN, where motes
-need to sense through channels rapidly.
-
-By repeating experiments 100 times, we get the average
-channel-switching time of Micaz motes: 24.3 $\mu$s. We then conduct
-the same experiments with different Micaz motes, as well as
-experiments with the transmitter switching from Channel 11 to other
-channels. In both scenarios, the channel-switching time does not have
-obvious changes. (In our experiments, all values are in the range of
-23.6 $\mu$s to 24.9 $\mu$s.)
-
-\section{Appendix section head}
-
-The primary consumer of energy in WSNs is idle listening. The key to
-reduce idle listening is executing low duty-cycle on nodes. Two
-primary approaches are considered in controlling duty-cycles in the
-MAC layer.
 
 \end{document}
 % End of v2-acmsmall-sample.tex (March 2012) - Gerry Murray, ACM
