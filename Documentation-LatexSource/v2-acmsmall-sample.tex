@@ -27,7 +27,7 @@
 \acmNumber{1}
 \acmArticle{1}
 \acmYear{2015}
-\acmMonth{3}
+\acmMonth{4}
 
 % Document starts
 \begin{document}
@@ -137,6 +137,7 @@ is given in Figure 2.
 \caption{Pseudocode of RF algorithms}
 \label{fig:RF_algorithm}
 \end{figure}
+
 
 \textbf{Algorithm 1 (RF1)}
 \newline
@@ -353,7 +354,12 @@ for the RangeFriends and Nearest Friends query processing
 
 
 \section{Conclusions}
-In this paper, we focused on spatial aspects of Databases. We examined their general use and the various fields of science and commerce that they can be applied. Later we presented the basic operations and modelling of spatial entities along with query processing and indexing. Finally we presented the most popular NoSQL databases and examined their geospatial capabilities.
+In this paper, we examined and experimented with a implementation of a Geo-Social network 
+query processing system based on MongoDB geospatial indexes and programmed with Ruby. 
+We evaluated 3 algorithm variations for each GeoSN query based on primitives queries implemented by primitive modules and evaluated each algorithm
+implementation by measuring it's process time against small and big amount of data. The queries that we experimented on were RangeFriends (RF) and NearestFriends (NF),
+but a similar work needs to be done for GeoSN query NearestStarGroup (NSG). We used NoSql spatial capabilities but this experiment could be run on a 
+classic relational DMBS such us PostgreSQL.
 %\end{document}  % This is where a 'short' article might terminate
 
 

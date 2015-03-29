@@ -3,11 +3,6 @@ The style file: abbrv.bst
 Database file #1: spatialBibliography.bib
 Warning--to sort, need author or key in ruby
 Warning--to sort, need author or key in mongod
-Warning--to sort, need author or key in json
-Warning--to sort, need author or key in opengeospatialcons
-Warning--to sort, need author or key in geohashorg
 Warning--to sort, need author or key in geoJSON
-Warning--to sort, need author or key in indexesmongo
-Warning--empty journal in NoSQLstorage
-Warning--empty year in NoSQLstorage
-(There were 9 warnings)
+Warning--to sort, need author or key in json
+(There were 4 warnings)
