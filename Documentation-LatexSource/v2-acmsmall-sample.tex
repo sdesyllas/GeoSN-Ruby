@@ -264,7 +264,7 @@ getUserLocation takes user id as an input and returns the user's location in the
 Finally rangeUsers takes a query point q and distance in meters r as input and returns the users within distance r from q, along with their locations, again in a form of JSON\cite{json} array.
 
 
-\subsection{Query Processing Modules}
+\subsection{Query Processing Module}
 The query processing module is a ruby class file which actually uses the above implemented modules in order to achieve more complex queries based on the primitive ones of the previous mentioned modules.
 This module initially makes a connection to the social and geo module in order to be able to used them. We stored geo and social data in MongoDB as already mentioned so this module uses Mongod Ruby driver in order to connect to MongoDB. Some portions of the driver are implemented in c++ for performance reasons. The methods implemented in this module are : rangeFriends and nearestFriends. We developed 3 different variations for each method based on the algorithms that we presented in the section above.
 Method rangeFriends takes a user u , a 2D point q and a distance in meters r as input and returns all friends within the given range as a JSON array.
