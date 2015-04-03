@@ -1,0 +1,29 @@
+\begin{thebibliography}{1}
+
+\bibitem{geoJSON}
+Geojson.
+\newblock \url{http://geojson.org/}.
+
+\bibitem{json}
+Json.
+\newblock \url{http://json.org/}.
+
+\bibitem{mongod}
+Mongodb.
+\newblock \url{http://www.mongodb.org/}.
+
+\bibitem{ruby}
+Ruby programming language.
+\newblock \url{https://www.ruby-lang.org/en/}.
+
+\bibitem{Armenatzoglou:geosn}
+N.~Armenatzoglou, S.~Papadopoulos, and D.~Papadias.
+\newblock A general framework for geo-social query processing.
+\newblock {\em Proc. VLDB Endow.}, 6(10):913--924, Aug. 2013.
+
+\bibitem{Corral:ClosestPair}
+A.~Corral, Y.~Manolopoulos, Y.~Theodoridis, and M.~Vassilakopoulos.
+\newblock Closest pair queries in spatial databases.
+\newblock {\em SIGMOD Rec.}, 29(2):189--200, May 2000.
+
+\end{thebibliography}
