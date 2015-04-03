@@ -197,7 +197,7 @@ k, a Nearest Friends (NF) query NF(u, q, k) returns a list
 
 For example, NF(u2, q, 2) = (u4, u6). Similar to the case of
 RF, the result incorporates the user locations. Figure 3 includes the
-pseudocode of three solution variants for NF, explained next
+pseudocode of three solution variants for NF, explained next:
 
 \textbf{Algorithm 1 (NF1)}
 NF1 first calculates F = GetFriends(u),
@@ -253,10 +253,10 @@ The social module consists of a ruby class file which provides the following met
 $getFriends(userid)$ and $areFriends(userid_1, userid_2)$. These two methods implement the primitive queries and mechanics for the social module. 
 The $getFriends(userid)$ takes a userId as input and returns all the friends of the given user id in the form of a JSON \cite{json} array.
 The $areFriends(userid_1, userid_2)$ method takes the ids of two users as input and returns
-$True$ if the users are friends and false if not
+$True$ if the users are friends and $False$ if not
 
 \subsection{Geo Module}
-The geo module consists of a ruby class file which provide the following methods:
+The geo module consists of a ruby class file which provides the following methods:
 $nearestUsers(q, k)$, $getUserLocation(u)$ and $rangeUsers(q, r)$. These methods implement the primitive queries and mechanics for the geo module.
 The nearestUsers method takes a query point q and an integer k as input and returns the k users nearest to q in ascending distance, along with their locations in a form of a JSON\cite{json} array.
 The getUserLocation takes user id as an input and returns the user's location in the form a pair coordinate (latitude and longitude).
@@ -313,7 +313,7 @@ for the RangeFriends and Nearest Friends query processing
 \end{figure}
 
 \section{Big DataSet measurements}
-In the following tables we can see the test results for the big dataset of the 1000 users
+In the following tables we can see the test results for the big dataset of the 10000 users
 for the RangeFriends and Nearest Friends query processing
 \newline
 
@@ -356,9 +356,9 @@ for the RangeFriends and Nearest Friends query processing
 In this paper, we examined and experimented with an implementation of a Geo-Social network 
 query processing system based on MongoDB geospatial indexes and programmed with Ruby. 
 We evaluated 3 algorithm variations for each GeoSN query based on primitives queries implemented by primitive modules and evaluated each algorithm
-implementation by measuring it's process time against small and big amount of data. The queries that we experimented on were RangeFriends (RF) and NearestFriends (NF),
-but a similar work needs to be done for GeoSN query NearestStarGroup (NSG). We used NoSql spatial capabilities but this experiment could be run on a 
-classic relational DMBS as well such us PostgreSQL.
+implementation by measuring its process time against small and big amount of data. The queries that we experimented on were RangeFriends (RF) and NearestFriends (NF),
+but a similar work needs to be done for GeoSN query NearestStarGroup (NSG). We used NoSql spatial capabilities for performance reasons but this experiment could be run on a 
+classic relational DBMS as well, such us PostgreSQL. As a future work, further experiments can be done by testing bigger datasets with more complex queries.
 %\end{document}  % This is where a 'short' article might terminate
 
 
