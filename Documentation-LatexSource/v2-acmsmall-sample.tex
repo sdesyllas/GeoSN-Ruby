@@ -272,7 +272,7 @@ Method nearestFriends takes User u and a positive integer k as input and returns
 
 
 \section{Evaluation and Running examples}
-In order to initially provide synthetic data sets to modules we implemented a seed ruby program that randomly created users and geo locations based on random latitude and longitude. Each user has the two previous and two next created as friends. We then run a start up script in order to perform some queries to MongoDB and warm up caches. The first test run included 100 users and the second run test included 10000 users. We wanted to test algorithm variations with a small and a big data set to test if their performance was influenced by the size of data. All the tests war run using an AMD A6 Dual Core Cpu clocked at 4.1Ghz and 4GB Ram. The datasets were stored in a regural HDD drive and MongoDB was set up in a Linux Ubuntu desktop distribution.
+In order to initially provide synthetic data sets to modules we implemented a seed ruby program that randomly created users and geo locations based on random latitude and longitude. Each user has the two previous and two next created as friends. We then run a start up script in order to perform some queries to MongoDB and warm up caches. The first test run included 100 users and the second run test included 10000 users. We wanted to test algorithm variations with a small and a big data set to test if their performance was affected by the size of datasets. All the tests was run using an AMD A6 Dual Core Cpu clocked at 4.1Ghz and 4GB Ram. The datasets were stored in a regular HDD drive and MongoDB was set up in a Linux Ubuntu desktop distribution.
 
 \section{Small DataSet measurements}
 In the following tables we can see the test results for the small dataset of the 100 users
